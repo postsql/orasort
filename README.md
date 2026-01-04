@@ -1,6 +1,8 @@
 # orasort
 Gemini implementation of the sorting algorithm described in https://patents.google.com/patent/US7680791B2 in Python, C and C++
 
+Inspired by [Mark Callaghan's post about the patent expiry](https://www.linkedin.com/posts/mdcallag_common-prefix-skipping-adaptive-sort-activity-7412940869009600512-zk-p?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAEwdygBhBvp4ElugRZ1QmGNMLVvry_BC6I) and a [longer post in his blog](https://smalldatum.blogspot.com/2026/01/common-prefix-skipping-adaptive-sort.html)
+
 ## Prompt
 
 Please implement the sorting algorithm described inn https://patents.google.com/patent/US7680791B2 in Python, C and C++
