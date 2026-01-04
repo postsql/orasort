@@ -3,6 +3,9 @@ Gemini implementation of the sorting algorithm described in https://patents.goog
 
 Inspired by [Mark Callaghan's post about the patent expiry](https://www.linkedin.com/posts/mdcallag_common-prefix-skipping-adaptive-sort-activity-7412940869009600512-zk-p?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAEwdygBhBvp4ElugRZ1QmGNMLVvry_BC6I) and a [longer post in his blog](https://smalldatum.blogspot.com/2026/01/common-prefix-skipping-adaptive-sort.html)
 
+> [!WARNING]
+> this code is raw Gewmini output and has had not testing.
+
 ## Prompt
 
 Please implement the sorting algorithm described inn https://patents.google.com/patent/US7680791B2 in Python, C and C++
@@ -17,16 +20,16 @@ Here is the implementation in Python, C, and C++.
 
 #### 1. Python Implementation
 
-in file `orasort.py`
+in file [orasort.py](orasort.py)
 
 #### 2. C Implementation
 
-In C, we work with ``char**`. The prefix skipping is highly effective here as it avoids repeated `strcmp` on long identical headers (like URLs).
+In C, we work with `char**`. The prefix skipping is highly effective here as it avoids repeated `strcmp` on long identical headers (like URLs).
 
-in file `orasort.c`
+in file [orasort.c](orasort.c)
 
 #### 3. C++ Implementation
 
 In C++, we use `std::vector` and `std::string`. The logic remains the same.
 
-in file `orasort.cpp`
+in file [orasort.cpp](orasort.cpp)
