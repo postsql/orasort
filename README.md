@@ -86,3 +86,32 @@ in file [orasort2.cpp](orasort2.cpp)
   * **Memory Bandwidth**: We only touch the actual string memory (`ptr`) if the 8-byte caches are identical. For distinct strings (like URLs differing early), we sort entirely using the integers in the struct, which is extremely cache-friendly for the CPU.
 
   * **Skip Count**: By calculating the skip count (`min_common_with_pivot`) during the sort comparisons, we get the O(N) optimization of string quicksort without the O(N) overhead of a separate pre-pass.
+
+## Prompt2
+
+Can you apply the same optimisation also the the C variant?
+
+## Response2
+
+Here is the optimized C implementation. It mirrors the C++ logic by introducing a `StringItem` struct to handle **Key Substring Caching** and performs **Integrated Prefix Calculation** to remove the extra pre-scan pass.
+
+#### Optimized C Implementation
+
+in file [orasort2.cpp](orasort2.c)
+
+#### Explanation of C-Specific Optimizations
+
+1. **Bit Manipulation Macros**:
+   * To replace C++'s `std::` utilities, we check for `__GNUC__` (GCC/Clang) to use efficient CPU instructions like `__builtin_bswap64` (byte swap) and `__builtin_clzll` (count leading zeros). These map directly to single assembly instructions (e.g., `BSWAP`, `LZCNT` on x64), making the cache comparison incredibly fast.
+   * A portable fallback is included for other compilers (like MSVC, though MSVC has its own intrinsics `_byteswap_uint64`, which you could add if targeting Windows).
+2. **Memory Management**:
+   * We allocate a temporary array of `StringItem` structs. This separates the sorting logic from the original `char**` array.
+   * While this costs $O(N)$ memory, the struct is small (16 bytes on 64-bit systems), and the speed gain from cache locality and integer comparisons usually outweighs the allocation cost.
+3. **Big Endian Cache**:
+   * Just like the C++ version, we load 8 bytes into a `uint64_t`.
+   * Standard processors (x86, ARM) are usually Little Endian. If we load "ABCD" into an integer, it becomes `0x44434241`. Comparing these integers directly yields the wrong alphabetical order.
+   * By swapping to Big Endian (`0x41424344`), `integer < integer` behaves exactly like `string < string`.
+4. **Integrated Prefix**:
+   * The variable `min_common_with_pivot` is updated inside the partition loop. This ensures we never scan the strings twice at the same depth. If the pivot shares 4 bytes with everything in the left partition, we know for a fact the next recursive call can skip those 4 bytes.
+
+
